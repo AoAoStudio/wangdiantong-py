@@ -1,0 +1,12 @@
+[nosetests]
+
+# with-allure=1
+not-clear-logdir=1
+logdir=test-reports/allure-reports
+
+with-xunit=1
+xunit-file=test-reports/junit.xml
+
+with-cov=1
+cov-config=.coveragerc
+cov-report=html
