@@ -10,6 +10,7 @@ nose-cov = "*"
 nose-allure-plugin = "*"
 allure-pytest = "*"
 pytest-allure-adaptor = "*"
+bumpversion = "*"
 
 [packages]
 requests = "*"
