@@ -19,7 +19,11 @@
     pipenv run bumpversion release # 发布迭代
 
 ## Test
-    pipenv run nosetests
+    pipenv run nosetests -c .noserc
+
+如果不需要allure测试结果, 可以注释.noserc里的with-allure=1
+
+allure测试报告生成与查看, 请移步至[allure docs](https://docs.qameta.io/allure)
 
 ## Features
 

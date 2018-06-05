@@ -2,6 +2,9 @@
 import datetime
 import os
 import unittest
+from pprint import pprint
+import logging
+logger = logging.getLogger(__name__)
 
 from wangdiantong.client import OpenApiClient
 from wangdiantong.client.base import Signer
@@ -36,8 +39,8 @@ class OpenapiTestCase(unittest.TestCase):
             limit=10
         ))
         assert len(signed_str) == 32
-        print(request)
-        print(signed_str)
+        logger.info(request)
+        logger.info(signed_str)
 
     def test_logistics_sync_query(self):
         data = self.openapi.logistics.sync_query(shop_no=self.shop_no, limit=10)
@@ -110,19 +113,33 @@ class OpenapiTestCase(unittest.TestCase):
             self.openapi.stocks.item_for_ack(1, 100, 20000)]
         )
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
-        print(data)
+        logger.info(data)
 
     def test_stocks_query(self):
         start_time = datetime.datetime.now()
         end_time = start_time + datetime.timedelta(days=1)
 
         data = self.openapi.stocks.query(start_time=start_time, end_time=end_time)
-        from pprint import pprint
-        pprint(data)
+        logger.info(data)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
         keys = list(data.keys())
         self.assertIn('stocks', keys)
+        self.assertIn('total_count', keys)
+
+    def test_order_trade_query(self):
+        end_time = datetime.datetime.now()
+        start_time = end_time - datetime.timedelta(hours=1)
+        data = self.openapi.orders.trade_query(start_time=start_time,
+                                               end_time=end_time,
+                                               trade_no="123123",
+                                               img_url=1,
+                                               )
+        logger.info(data)
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
+
+        keys = list(data.keys())
+        self.assertIn('trades', keys)
         self.assertIn('total_count', keys)
 
 if __name__ == '__main__':
