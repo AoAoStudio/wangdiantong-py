@@ -2,7 +2,7 @@
 import sys
 from os.path import dirname, abspath, join
 
-from pip.req import parse_requirements
+from pip._internal.req import parse_requirements
 from setuptools import setup, find_packages
 
 LIB_DIR = dirname(abspath(__file__))
@@ -24,15 +24,14 @@ requirements = [str(ir.req)
 
 test_requirements = [str(ir.req)
                      for ir in parse_requirements(
-        join(LIB_DIR, 'requirements', 'local.txt'), session='hack')]
+        join(LIB_DIR, 'requirements', 'test.txt'), session='hack')]
 
-sys.path.insert(0, LIB_DIR)
 import wangdiantong as wdt
 
 setup(
     name='wangdiantong-py',
-    packages=find_packages(exclude=['tests']),
-    version='0.0.3',
+    packages=find_packages(exclude=['wangdiantong.tests']),
+    version=wdt.__version__,
     description="wangdiantong python openapi",
     long_description=long_description(),
     author=wdt.__author__,

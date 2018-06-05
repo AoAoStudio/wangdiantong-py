@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import os
 import unittest
 
@@ -111,6 +112,18 @@ class OpenapiTestCase(unittest.TestCase):
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
         print(data)
 
+    def test_stocks_query(self):
+        start_time = datetime.datetime.now()
+        end_time = start_time + datetime.timedelta(days=1)
+
+        data = self.openapi.stocks.query(start_time=start_time, end_time=end_time)
+        from pprint import pprint
+        pprint(data)
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
+
+        keys = list(data.keys())
+        self.assertIn('stocks', keys)
+        self.assertIn('total_count', keys)
 
 if __name__ == '__main__':
     unittest.main()

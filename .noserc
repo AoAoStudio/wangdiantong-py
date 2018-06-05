@@ -1,6 +1,6 @@
 [nosetests]
 
-# with-allure=1
+with-allure=1
 not-clear-logdir=1
 logdir=test-reports/allure-reports
 

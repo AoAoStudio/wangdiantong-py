@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+import datetime
 import json
 
 from wangdiantong.api.base import BaseAPIEndpoint
@@ -52,3 +53,32 @@ class StocksAPI(BaseAPIEndpoint):
             sync_stock=sync_stock,
             stock_change_count=stock_change_count
         )
+
+    def query(self, start_time, end_time,
+              warehouse_no=None, spec_no=None,
+              page_no=0, page_size=40): # type: (datetime.datetime, datetime.datetime, int, int, str, str)->dict
+        """
+        库存查询-分页查询
+             openapi:  /openapi2/stock_query.php
+            奇门云网关: wdt.stock.query
+
+        Docs:
+            http://112.126.83.15/open_api/wordpress/2017/07/06/%E5%BA%93%E5%AD%98%E6%9F%A5%E8%AF%A2-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/
+
+        :param datetime start_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required
+        :param datetime end_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required
+        :param str warehouse_no: str
+        :param str spec_no: str
+        :param int page_no: int, required
+        :param int page_size: int, required
+        :return: dict
+        """
+        data = dict(list(filter(lambda x: x[1] is not None, dict(
+            warehouse_no=warehouse_no,
+            spec_no=spec_no,
+            start_time=start_time.strftime("%Y-%m-%d %H:%M:%S"),
+            end_time=end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            page_no=page_no,
+            page_size=page_size,
+        ).items())))
+        return self._post("/openapi2/stock_query.php", data=data)
