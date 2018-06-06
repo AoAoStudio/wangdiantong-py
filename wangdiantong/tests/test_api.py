@@ -142,5 +142,92 @@ class OpenapiTestCase(unittest.TestCase):
         self.assertIn('trades', keys)
         self.assertIn('total_count', keys)
 
+    def test_goods_query(self):
+        """
+
+        goods query response data
+
+        >>> data = {u'code': 0, u'goods_list': [
+        >>>          {u'alias': u'',
+        >>>           u'aux_unit_name': None,
+        >>>           u'brand_name': u'\u65e0',
+        >>>           u'brand_no': u'BRAND',
+        >>>           u'class_name': u'\u65e0',
+        >>>           u'flag_name': None,
+        >>>           u'goods_id': u'209811',
+        >>>           u'goods_modified': u'2018-06-06 11:26:37',
+        >>>           u'goods_name': u'CESHI20180606',
+        >>>           u'goods_no': u'CESHI20180606',
+        >>>           u'goods_type': u'1',
+        >>>           u'origin': u'',
+        >>>           u'pinyin': u'',
+        >>>           u'prop1': u'',
+        >>>           u'prop2': u'',
+        >>>           u'prop3': u'',
+        >>>           u'prop4': u'',
+        >>>           u'prop5': u'',
+        >>>           u'prop6': u'',
+        >>>           u'remark': u'',
+        >>>           u'short_name': u'',
+        >>>           u'spec_count': u'1',
+        >>>           u'spec_list': [
+        >>>            {u'barcode': u'CESHI20180606S',
+        >>>             u'custom_price1': u'0.0000',
+        >>>             u'custom_price2': u'0.0000',
+        >>>             u'goods_id': u'209811',
+        >>>             u'height': u'0.0000',
+        >>>             u'img_url': u'',
+        >>>             u'is_allow_neg_stock': u'1',
+        >>>             u'is_lower_cost': u'0',
+        >>>             u'is_not_need_examine': u'0',
+        >>>             u'is_not_use_air': u'0',
+        >>>             u'is_sn_enable': u'0',
+        >>>             u'is_zero_cost': u'1',
+        >>>             u'large_type': u'0',
+        >>>             u'length': u'0.0000',
+        >>>             u'lowest_price': u'0.0000',
+        >>>             u'market_price': u'0.0000',
+        >>>             u'member_price': u'0.0000',
+        >>>             u'pack_score': u'0',
+        >>>             u'pick_score': u'0',
+        >>>             u'prop1': u'',
+        >>>             u'prop2': u'',
+        >>>             u'prop3': u'',
+        >>>             u'prop4': u'',
+        >>>             u'prop5': u'',
+        >>>             u'prop6': u'',
+        >>>             u'receive_days': u'0',
+        >>>             u'remark': u'',
+        >>>             u'retail_price': u'0.0000',
+        >>>             u'sale_score': u'0',
+        >>>             u'sales_days': u'0',
+        >>>             u'spec_aux_unit_name': None,
+        >>>             u'spec_code': u'',
+        >>>             u'spec_modified': u'2018-06-06 11:26:37',
+        >>>             u'spec_name': u'\u767d\u8272L',
+        >>>             u'spec_no': u'CESHI20180606S',
+        >>>             u'spec_unit_name': None,
+        >>>             u'tax_rate': u'0.0000',
+        >>>             u'validity_days': u'0',
+        >>>             u'weight': u'0.0000',
+        >>>             u'wholesale_price': u'0.0000',
+        >>>             u'width': u'0.0000'}],
+        >>>           u'unit_name': None}],
+        >>>         u'message': u'',
+        >>>         u'total_count': u'1'}
+        """
+
+        end_time = datetime.datetime.now()
+        start_time = end_time - datetime.timedelta(hours=1)
+        data = self.openapi.goods.query(start_time=start_time,
+                                        end_time=end_time,
+                                        )
+        logger.info(data)
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
+
+        keys = list(data.keys())
+        self.assertIn('goods_list', keys)
+        self.assertIn('total_count', keys)
+
 if __name__ == '__main__':
     unittest.main()

@@ -6,5 +6,5 @@ if six.PY2:
 
 __author__ = """Ranger Huang"""
 __email__ = 'ranger_huang@yeah.net'
-__version__ = '0.0.7-dev'
+__version__ = '0.0.8-dev'
 VERSION = __version__.split('.')

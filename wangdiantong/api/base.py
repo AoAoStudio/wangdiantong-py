@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+
 class BaseAPIEndpoint(object):
 
-    def __init__(self, client=None):  # type: (wangdiantong.client.base.BaseAPIClient) -> None
+    def __init__(self,
+                 client=None):  # type: (wangdiantong.client.base.BaseAPIClient) -> None
         self._client = client
 
     def _get(self, url, **kwargs):
