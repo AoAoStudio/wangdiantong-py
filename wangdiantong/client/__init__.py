@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+from wangdiantong.api.goods import GoodsAPI
 from wangdiantong.api.logistics import LogisticsAPI
 from wangdiantong.api.order import OrderAPI
 from wangdiantong.api.stocks import StocksAPI
@@ -20,3 +21,5 @@ class OpenApiClient(BaseAPIClient):
     stocks = StocksAPI()
 
     orders = OrderAPI()
+
+    goods = GoodsAPI()

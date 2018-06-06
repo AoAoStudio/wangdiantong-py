@@ -100,6 +100,7 @@ class BaseAPIClient(object):
         except:
             logger.debug('result parsing error', exc_info=True)
             raise
+        data['code'] = int(data['code'])
         return data
 
     def get(self, url, **kwargs):
