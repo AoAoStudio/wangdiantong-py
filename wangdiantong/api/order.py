@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 import datetime
+import json
+
 from wangdiantong.api.base import BaseAPIEndpoint
 
 
@@ -92,3 +95,12 @@ class OrderAPI(BaseAPIEndpoint):
         query.update(**kwargs)
         data = dict(list(filter(lambda x: x[1] is not None, query.items())))
         return self._post("/openapi2/trade_query.php", data=data)
+
+    def trade_push(self,
+                   shop_no, trade_list, switch=1):
+        data = {
+            "shop_no": shop_no,
+            "trade_list": json.dumps(trade_list),
+            "switch": switch
+        }
+        return self._post("/openapi2/trade_push.php", data=data)

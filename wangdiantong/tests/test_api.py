@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 import datetime
-import os
-import unittest
-from pprint import pprint
 import logging
-logger = logging.getLogger(__name__)
+import unittest
 
+from wangdiantong import settings as wdt
 from wangdiantong.client import OpenApiClient
 from wangdiantong.client.base import Signer
-from wangdiantong import settings as wdt
 from wangdiantong.utils import force_bytes
+
+logger = logging.getLogger(__name__)
 
 
 class OpenapiTestCase(unittest.TestCase):
 
     def setUp(self):
-        wdt.APPSECRET = os.environ.get('APPSECRET', 'CHANGE-ME')
-        wdt.APPKEY = os.environ.get('APPKEY', 'CHANGE-ME')
-        wdt.SID = os.environ.get('SID', 'CHANGE-ME')
-        wdt.SHOP_NO = os.environ.get('SHOP_NO', 'CHANGE-ME')
+        wdt.APPSECRET = '12345'  # os.environ.get('APPSECRET', 'CHANGE-ME')
+        wdt.APPKEY = 'lianqi2test'  # os.environ.get('APPKEY', 'CHANGE-ME')
+        wdt.SID = 'apidev2'  # os.environ.get('SID', 'CHANGE-ME')
+        wdt.SHOP_NO = 'api_test'  # os.environ.get('SHOP_NO', 'CHANGE-ME')
 
         self.shop_no = wdt.SHOP_NO
         self.openapi = OpenApiClient(
@@ -228,6 +227,60 @@ class OpenapiTestCase(unittest.TestCase):
         keys = list(data.keys())
         self.assertIn('goods_list', keys)
         self.assertIn('total_count', keys)
+
+    def test_trade_push(self):
+        """测试推送原始订单"""
+        trade_list = [{
+            "tid": "xztrade-01",
+            "trade_status": 30,
+            "pay_status": 2,
+            "delivery_term": 1,
+            "trade_time": "2015-01-01 10:0:0",
+            "pay_time": "",
+            "buyer_nick": "行者王",
+            "buyer_email": "",
+            "pay_id": "1212121",
+            "pay_account": "pay@pay.com",
+            "receiver_name": "测试者",
+            "receiver_province": "北京",
+            "receiver_city": "北京市",
+            "receiver_district": "昌平区",
+            "receiver_address": "天通苑",
+            "receiver_mobile": "15345543211",
+            "receiver_telno": "",
+            "receiver_zip": "",
+            "logistics_type": "-1",
+            "invoice_type": 1,
+            "invoice_title": "行者抬头",
+            "buyer_message": "行者留言",
+            "seller_memo": "卖家备注",
+            "seller_flag": "0",
+            "post_amount": "10",
+            "cod_amount": 0,
+            "ext_cod_fee": 0,
+            "paid": 20,
+            "order_list": [{
+                "oid": "xzorder-01",
+                "num": 2,
+                "price": 10,
+                "status": 30,
+                "refund_status": 0,
+                "goods_id": "1001",
+                "spec_id": "1001",
+                "goods_no": "xzabcde",
+                "spec_no": "xzabcde-01",
+                "goods_name": "测试用例1",
+                "spec_name": "规格01",
+                "adjust_amount": 0,
+                "discount": 10,
+                "share_discount": 0,
+                "cid": "",
+            }]
+        }]
+        data = self.openapi.orders.trade_push(shop_no=self.shop_no, trade_list=trade_list)
+        logger.info(data)
+        self.assertEqual(data, True)
+
 
 if __name__ == '__main__':
     unittest.main()
