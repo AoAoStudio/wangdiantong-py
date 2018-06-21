@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import datetime
 import os
-import unittest
 from pprint import pprint
 import logging
-logger = logging.getLogger(__name__)
+import unittest
 
+from wangdiantong import settings as wdt
 from wangdiantong.client import OpenApiClient
 from wangdiantong.client.base import Signer
-from wangdiantong import settings as wdt
 from wangdiantong.utils import force_bytes
 
+logger = logging.getLogger(__name__)
 
+from .mock import GOODS_PLATFORM
 class OpenapiTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -19,8 +20,10 @@ class OpenapiTestCase(unittest.TestCase):
         wdt.APPKEY = os.environ.get('APPKEY', 'CHANGE-ME')
         wdt.SID = os.environ.get('SID', 'CHANGE-ME')
         wdt.SHOP_NO = os.environ.get('SHOP_NO', 'CHANGE-ME')
+        wdt.PLATFORM_ID = os.environ.get('PLATFORM_ID', 'CHANGE-ME')
 
         self.shop_no = wdt.SHOP_NO
+        self.platform_id = wdt.PLATFORM_ID
         self.openapi = OpenApiClient(
             sid=wdt.SID,
             appkey=wdt.APPKEY,
@@ -101,11 +104,27 @@ class OpenapiTestCase(unittest.TestCase):
                          force_bytes('非待同步状态,不可更新'))
 
     def test_stocks_change_query(self):
-        data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=10)
+        data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=100)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
         keys = list(data.keys())
         self.assertIn('stock_change_list', keys)
+        # ack handle 防止下次不能查库存
+        stock_sync_list = []
+        for item in data['stock_change_list']:
+            rec_id = item['rec_id']
+            sync_stock = item['sync_stock']
+            stock_change_count = item['stock_change_count']
+            stock_sync_list.append(
+                self.openapi.stocks.item_for_ack(
+                    rec_id,
+                    sync_stock,
+                    stock_change_count
+                )
+            )
+        if stock_sync_list:
+            data_ack = self.openapi.stocks.sync_ack(stock_sync_list=stock_sync_list)
+            self.assertEqual(data_ack['code'], self.openapi.CODE.SUCCESS, data_ack)
         self.assertIn('current_count', keys)
 
     def test_stocks_change_ack(self):
@@ -117,10 +136,11 @@ class OpenapiTestCase(unittest.TestCase):
 
     def test_stocks_query(self):
         start_time = datetime.datetime.now()
-        end_time = start_time + datetime.timedelta(days=1)
+        end_time = start_time + datetime.timedelta(days=10)
 
-        data = self.openapi.stocks.query(start_time=start_time, end_time=end_time)
-        logger.info(data)
+        data = self.openapi.stocks.query(start_time=start_time,
+                                         end_time=end_time,
+                                         spec_no='xzabcde-03')
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
         keys = list(data.keys())
@@ -221,6 +241,7 @@ class OpenapiTestCase(unittest.TestCase):
         start_time = end_time - datetime.timedelta(hours=1)
         data = self.openapi.goods.query(start_time=start_time,
                                         end_time=end_time,
+                                        spec_no='xzabcde-01'
                                         )
         logger.info(data)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
@@ -228,6 +249,66 @@ class OpenapiTestCase(unittest.TestCase):
         keys = list(data.keys())
         self.assertIn('goods_list', keys)
         self.assertIn('total_count', keys)
+
+    def test_trade_push(self):
+        """测试推送原始订单"""
+        trade_list = [{
+            "tid": "xztrade-01",
+            "trade_status": 30,
+            "pay_status": 2,
+            "delivery_term": 1,
+            "trade_time": "2015-01-01 10:0:0",
+            "pay_time": "",
+            "buyer_nick": "行者王",
+            "buyer_email": "",
+            "pay_id": "1212121",
+            "pay_account": "pay@pay.com",
+            "receiver_name": "测试者",
+            "receiver_province": "北京",
+            "receiver_city": "北京市",
+            "receiver_district": "昌平区",
+            "receiver_address": "天通苑",
+            "receiver_mobile": "15345543211",
+            "receiver_telno": "",
+            "receiver_zip": "",
+            "logistics_type": "-1",
+            "invoice_type": 1,
+            "invoice_title": "行者抬头",
+            "buyer_message": "行者留言",
+            "seller_memo": "卖家备注",
+            "seller_flag": "0",
+            "post_amount": "10",
+            "cod_amount": 0,
+            "ext_cod_fee": 0,
+            "paid": 20,
+            "order_list": [{
+                "oid": "xzorder-01",
+                "num": 2,
+                "price": 10,
+                "status": 30,
+                "refund_status": 0,
+                "goods_id": "1001",
+                "spec_id": "1001",
+                "goods_no": "xzabcde",
+                "spec_no": "xzabcde-01",
+                "goods_name": "测试用例1",
+                "spec_name": "规格01",
+                "adjust_amount": 0,
+                "discount": 10,
+                "share_discount": 0,
+                "cid": "",
+            }]
+        }]
+        data = self.openapi.orders.trade_push(shop_no=self.shop_no, trade_list=trade_list)
+        logger.info(data)
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
+
+    def test_goods_push_platfrom(self):
+        goods_list = [GOODS_PLATFORM]
+        data = self.openapi.goods.goods_push_platfrom(self.shop_no,
+                                                      self.platform_id,
+                                                      goods_list)
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
 if __name__ == '__main__':
     unittest.main()

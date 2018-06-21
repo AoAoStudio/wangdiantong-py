@@ -25,6 +25,9 @@ class StocksAPI(BaseAPIEndpoint):
             shop_no=shop_no,
             limit=limit
         )
+        import json
+        data_json = json.dumps(data)
+        assert data_json
         return self._post("/openapi2/api_goods_stock_change_query.php", data=data)
 
     def sync_ack(self,  stock_sync_list):
