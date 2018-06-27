@@ -11,3 +11,5 @@ SID = os.environ.get('WANGDIANTONG_SID', 'CHANGE-ME')
 
 SHOP_NO = os.environ.get('WANGDIANTONG_SHOP_NO', 'CHANGE-ME')
 
+PLATFORM_ID = os.environ.get('WANGDIANTONG_SPLATFORM_ID', 'CHANGE-ME')
+
