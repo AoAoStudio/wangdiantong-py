@@ -3,11 +3,11 @@ import os
 
 API_BASE_URL = 'http://121.41.177.115' # 测试环境
 
-APPSECRET = os.environ.get('APPSECRET', 'CHANGE-ME')
+APPSECRET = os.environ.get('WANGDIANTONG_APPSECRET', 'CHANGE-ME')
 
-APPKEY = os.environ.get('APPKEY', 'CHANGE-ME')
+APPKEY = os.environ.get('WANGDIANTONG_APPKEY', 'CHANGE-ME')
 
-SID = os.environ.get('SID', 'CHANGE-ME')
+SID = os.environ.get('WANGDIANTONG_SID', 'CHANGE-ME')
 
-SHOP_NO = os.environ.get('SHOP_NO', 'CHANGE-ME')
+SHOP_NO = os.environ.get('WANGDIANTONG_SHOP_NO', 'CHANGE-ME')
 

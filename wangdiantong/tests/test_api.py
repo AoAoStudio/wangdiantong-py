@@ -16,11 +16,11 @@ from .mock import GOODS_PLATFORM
 class OpenapiTestCase(unittest.TestCase):
 
     def setUp(self):
-        wdt.APPSECRET = os.environ.get('APPSECRET', 'CHANGE-ME')
-        wdt.APPKEY = os.environ.get('APPKEY', 'CHANGE-ME')
-        wdt.SID = os.environ.get('SID', 'CHANGE-ME')
-        wdt.SHOP_NO = os.environ.get('SHOP_NO', 'CHANGE-ME')
-        wdt.PLATFORM_ID = os.environ.get('PLATFORM_ID', 'CHANGE-ME')
+        wdt.APPSECRET = os.environ.get('WANGDIANTONG_APPSECRET', 'CHANGE-ME')
+        wdt.APPKEY = os.environ.get('WANGDIANTONG_APPKEY', 'CHANGE-ME')
+        wdt.SID = os.environ.get('WANGDIANTONG_SID', 'CHANGE-ME')
+        wdt.SHOP_NO = os.environ.get('WANGDIANTONG_SHOP_NO', 'CHANGE-ME')
+        wdt.PLATFORM_ID = os.environ.get('WANGDIANTONG_PLATFORM_ID', 'CHANGE-ME')
 
         self.shop_no = wdt.SHOP_NO
         self.platform_id = wdt.PLATFORM_ID
@@ -104,6 +104,7 @@ class OpenapiTestCase(unittest.TestCase):
                          force_bytes('非待同步状态,不可更新'))
 
     def test_stocks_change_query(self):
+        self.shop_no = '20160817023956'
         data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=100)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 

@@ -21,14 +21,13 @@ from .mock import MockData
 
 class OrderTransactionTestCase(unittest.TestCase):
     def setUp(self):
-        wdt.APPSECRET = os.environ.get('APPSECRET', 'CHANGE-ME')
-        wdt.APPKEY = os.environ.get('APPKEY', 'CHANGE-ME')
-        wdt.SID = os.environ.get('SID', 'CHANGE-ME')
-        wdt.SHOP_NO = os.environ.get('SHOP_NO', 'CHANGE-ME')
-        wdt.PLATFORM_ID = os.environ.get('PLATFORM_ID', 'CHANGE-ME')
+        wdt.APPSECRET = os.environ.get('WANGDIANTONG_APPSECRET', 'CHANGE-ME')
+        wdt.APPKEY = os.environ.get('WANGDIANTONG_APPKEY', 'CHANGE-ME')
+        wdt.SID = os.environ.get('WANGDIANTONG_SID', 'CHANGE-ME')
+        wdt.SHOP_NO = os.environ.get('WANGDIANTONG_SHOP_NO', 'CHANGE-ME')
+        wdt.PLATFORM_ID = os.environ.get('WANGDIANTONG_SPLATFORM_ID', 'CHANGE-ME')
 
         self.shop_no = wdt.SHOP_NO
-        # self.shop_no = 'byzy_01'
         self.platform_id = wdt.PLATFORM_ID
         self.openapi = OpenApiClient(
             sid=wdt.SID,
@@ -38,12 +37,13 @@ class OrderTransactionTestCase(unittest.TestCase):
         self.mock_data = MockData
 
     def test_order_push_success_stock_query(self):
-        trade_no = 'xztrade-15'
+        trade_no = 'xztrade-21'
         goods_no = 'xzabcde'
-        # goods_no = 'xzsc003'
+        # goods_no = 'sku0011'
         spec_no = 'xzabcde-03'
-        # spec_no = 'xzsc003-A'
+        # spec_no = 'sku0011'
         # trade_data = self.mock_data.trade_single(trade_no, goods_no, spec_no)
+        # # self.shop_no = '20160817023956'
         # data_trade_push = self.openapi.orders.trade_push(shop_no=self.shop_no,
         #                                                  trade_list=[
         #                                                      trade_data])
@@ -60,8 +60,7 @@ class OrderTransactionTestCase(unittest.TestCase):
         self.assertEqual(data_stock_query['code'],
                          self.openapi.CODE.SUCCESS,
                          data_stock_query)
-
-        data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=100)
+        data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=10)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
         keys = list(data.keys())
