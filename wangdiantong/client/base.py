@@ -8,6 +8,7 @@ import time
 
 import requests
 
+from wangdiantong.settings import API_BASE_URL
 from wangdiantong.api.base import BaseAPIEndpoint
 from wangdiantong.utils import calculate_signature
 
@@ -51,8 +52,7 @@ class Signer(object):
 class BaseAPIClient(object):
     logger = logger
 
-    # TODO: 改成生产环境
-    API_BASE_URL = 'http://121.41.177.115'
+    API_BASE_URL = API_BASE_URL
 
     CODE = Code
 

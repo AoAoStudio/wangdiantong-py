@@ -21,6 +21,7 @@ class OpenapiTestCase(unittest.TestCase):
         wdt.SID = os.environ.get('WANGDIANTONG_SID', 'CHANGE-ME')
         wdt.SHOP_NO = os.environ.get('WANGDIANTONG_SHOP_NO', 'CHANGE-ME')
         wdt.PLATFORM_ID = os.environ.get('WANGDIANTONG_PLATFORM_ID', 'CHANGE-ME')
+        wdt.HOSTAPI = os.environ.get('WANGDIANTONG_HOST', 'CHANGE-ME')
 
         self.shop_no = wdt.SHOP_NO
         self.platform_id = wdt.PLATFORM_ID
@@ -104,7 +105,7 @@ class OpenapiTestCase(unittest.TestCase):
                          force_bytes('非待同步状态,不可更新'))
 
     def test_stocks_change_query(self):
-        self.shop_no = '20160817023956'
+        self.shop_no = '10'
         data = self.openapi.stocks.change_query(shop_no=self.shop_no, limit=100)
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
@@ -136,12 +137,13 @@ class OpenapiTestCase(unittest.TestCase):
         logger.info(data)
 
     def test_stocks_query(self):
-        start_time = datetime.datetime.now()
-        end_time = start_time + datetime.timedelta(days=10)
+        start_time = datetime.datetime.now() - datetime.timedelta(days=10)
+        end_time =  datetime.datetime.now()
 
         data = self.openapi.stocks.query(start_time=start_time,
                                          end_time=end_time,
-                                         spec_no='xzabcde-03')
+                                         spec_no='XZWD0001001',
+                                         warehouse_no='9')
         self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
 
         keys = list(data.keys())
