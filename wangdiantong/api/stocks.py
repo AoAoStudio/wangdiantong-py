@@ -10,12 +10,15 @@ class StocksAPI(BaseAPIEndpoint):
     """ Goods Stocks
 
     Docs:
-        http://112.126.83.15/open_api/wordpress/2017/04/11/%E6%9F%A5%E8%AF%A2%E5%BA%93%E5%AD%98%E5%90%8C%E6%AD%A5/
+        https://open.wangdian.cn/qyb/open/apidoc/doc
     """
 
     def change_query(self, shop_no, limit):
         """
         查询库存同步
+
+        Docs:
+            https://open.wangdian.cn/qyb/open/apidoc/doc?path=api_goods_stock_change_query.php
 
         :param str shop_no: varchar(20) required 店铺编号
         :param int limit: int(4) 最多返回条数
@@ -33,6 +36,9 @@ class StocksAPI(BaseAPIEndpoint):
     def sync_ack(self,  stock_sync_list):
         """
         平台货品库存同步状态回写
+
+        Docs:
+            https://open.wangdian.cn/qyb/open/apidoc/doc?path=api_goods_stock_change_ack.php
 
         :param list stock_sync_list: [dict(rec_id=1, sync_stoc=100, stock_change_count=5634245)]
         :return:
@@ -66,7 +72,7 @@ class StocksAPI(BaseAPIEndpoint):
             奇门云网关: wdt.stock.query
 
         Docs:
-            http://112.126.83.15/open_api/wordpress/2017/07/06/%E5%BA%93%E5%AD%98%E6%9F%A5%E8%AF%A2-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/
+            https://open.wangdian.cn/qyb/open/apidoc/doc?path=stock_query.php
 
         :param datetime start_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required
         :param datetime end_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required

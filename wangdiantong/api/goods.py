@@ -9,7 +9,7 @@ class GoodsAPI(BaseAPIEndpoint):
 
     def goods_push_platfrom(self, shop_no, platform_id, goods_list):
         """
-        Docs:
+        Docs: https://open.wangdian.cn/qyb/open/apidoc/doc?path=api_goodsspec_push.php
             OpenApi:   /openapi2/api_goodsspec_push.php
             奇门云网官: method=wdt.api.goodsspec.push
             只支持创建自有平台的平台货品，货品明细一次不能超过2000行
@@ -54,7 +54,7 @@ class GoodsAPI(BaseAPIEndpoint):
         """
         查询货品档案
 
-        Docs:
+        Docs: https://open.wangdian.cn/qyb/open/apidoc/doc?path=goods_query.php
             OpenApi:   /openapi2/goods_query.php
             奇门云网官: method=wdt.goods.query
 

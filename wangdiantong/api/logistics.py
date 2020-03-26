@@ -8,7 +8,7 @@ from wangdiantong.api.base import BaseAPIEndpoint
 class LogisticsAPI(BaseAPIEndpoint):
     """ Logistics
         Docs:
-            http://112.126.83.15/open_api/wordpress/2017/04/11/%E6%9F%A5%E8%AF%A2%E7%89%A9%E6%B5%81%E5%90%8C%E6%AD%A5/
+            https://open.wangdian.cn/qyb/open/apidoc/doc
     """
 
     def sync_query(self, shop_no, limit, is_part_sync_able=None):
@@ -16,7 +16,7 @@ class LogisticsAPI(BaseAPIEndpoint):
         查询物流同步
 
         Docs:
-            http://112.126.83.15/open_api/wordpress/2017/04/11/%E6%9F%A5%E8%AF%A2%E7%89%A9%E6%B5%81%E5%90%8C%E6%AD%A5/
+            https://open.wangdian.cn/qyb/open/apidoc/doc?path=logistics_sync_query.php
 
         :param str shop_no: varchar(20) required 店铺编号
         :param int limit: int(4) 最多返回条数
@@ -36,7 +36,7 @@ class LogisticsAPI(BaseAPIEndpoint):
         物流同步状态回写(批量)
 
         Docs:
-            http://112.126.83.15/open_api/wordpress/2017/04/11/%E6%9F%A5%E8%AF%A2%E7%89%A9%E6%B5%81%E5%90%8C%E6%AD%A5/
+            https://open.wangdian.cn/qyb/open/apidoc/doc?path=logistics_sync_ack.php
 
         :param list logistics_list: [dict(rec_id=1, status=0, message="同步成功", )] 物流同步状态回传列表
         :return:

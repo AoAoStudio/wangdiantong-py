@@ -39,7 +39,7 @@ class OrderAPI(BaseAPIEndpoint):
     Order
 
     Docs:
-        http://112.126.83.15/open_api/wordpress/2018/05/30/%E8%AE%A2%E5%8D%95api/
+        https://open.wangdian.cn/qyb/open/apidoc/doc?path=trade_push.php
     """
 
     """
@@ -65,7 +65,7 @@ class OrderAPI(BaseAPIEndpoint):
               openapi:  /openapi2/trade_query.php
             奇门云网关:  method=wdt.trade.query
 
-        Docs:
+        Docs: https://open.wangdian.cn/qyb/open/apidoc/doc?path=trade_query.php
 
         :param datetime start_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required 最后更新时间，开始日期
         :param datetime end_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required  最后更新时间，结束日期
@@ -98,6 +98,16 @@ class OrderAPI(BaseAPIEndpoint):
 
     def trade_push(self,
                    shop_no, trade_list, switch=1):
+        """
+        推送订单
+
+        Docs: https://open.wangdian.cn/qyb/open/apidoc/doc?path=trade_push.php
+
+        :param shop_no:
+        :param trade_list:
+        :param switch:
+        :return:
+        """
         data = {
             "shop_no": shop_no,
             "trade_list": json.dumps(trade_list),
