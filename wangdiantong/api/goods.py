@@ -88,5 +88,100 @@ class GoodsAPI(BaseAPIEndpoint):
         data = dict(list(filter(lambda x: x[1] is not None, query.items())))
         return self._post("/openapi2/goods_query.php", data=data)
 
+    def suites_query(self, start_time, end_time,
+                     suite_no, page_no=0, page_size=40, **kwargs):
+        """
+
+        :param datetime start_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required 最后更新时间，开始日期
+        :param datetime end_time: str datetime.strftime("%Y-%m-%d %H:%M:%S"), required  最后更新时间，结束日期
+        :param suite_no: str  required 代表组合装商品所有属性的唯一编码，用于系统组合装商品数据的获取;如果按照组合装商家编码查询，可以不传送开始时间和结束时间
+        :param int page_no: int(10), required 页号,默认0，从0页开始
+        :param int page_size: int(10), required 分页大小（最大不超过40条，默认返回40条）
+
+        ::kwargs
+        :param str class_name: varchar(32) 分类名称
+        :param str brand_name: varchar(32) 品牌名称
+        :return:
+
+            {
+                'total_count': 1,
+                'message': '',
+                'code': 0,
+                'suites': [
+                    {
+                        'unit_name': '',
+                        'barcode_count': '0',
+                        'weight': '0.8230',
+                        'class_name': '无',
+                        'wholesale_price': '0.0000',
+                        'member_price': '0.0000',
+                        'brand_name': '无',
+                        'unit_aux_name': '',
+                        'flag_name': '',
+                        'short_name': 'xxxx',
+                        'barcode': '',
+                        'market_price': '0.0000',
+                        'suite_name': 'xxxx',
+                        'retail_price': '0.0000',
+                        'remark': '',
+                        'created': '0000-00-00 00:00:00',
+                        'suite_no': 'xxxxxx',
+                        'modified': '2020-04-20 10:36:11',
+                        'prop4': '',
+                        'specs_list': [{
+                            'fixed_price': '355.0000',
+                            'ratio': '0.6906',
+                            'goods_name': 'xxxxx',
+                            'created': '0000-00-00 00:00:00',
+                            'barcode': 'xxxxxx',
+                            'modified': '2020-04-20 10:36:11',
+                            'num': '1.0000',
+                            'spec_name': 'xxxxx',
+                            'suite_id': '686',
+                            'spec_code': '0',
+                            'goods_no': 'xxxxx',
+                            'spec_no': 'xxxx',
+                            'is_fixed_price': '0'
+                        }, {
+                            'fixed_price': '1590.0000',
+                            'ratio': '0.3094',
+                            'goods_name': 'xxxxx',
+                            'created': '0000-00-00 00:00:00',
+                            'barcode': 'xxxxxxx',
+                            'modified': '2020-04-20 10:36:11',
+                            'num': '1.0000',
+                            'spec_name': 'xxxxx',
+                            'suite_id': '686',
+                            'spec_code': '0',
+                            'goods_no': 'xxxxxx',
+                            'spec_no': 'xxxxxxx',
+                            'is_fixed_price': '0'
+                        }],
+                        'prop1': '',
+                        'prop2': '',
+                        'prop3': '',
+                        'suite_id': 'xxxx',
+                        'large_split': '0'
+                    }
+                ]
+            }
+        """
+
+        if suite_no:
+            query = dict(
+                page_no=page_no,
+                suite_no=suite_no,
+                page_size=page_size,
+            )
+        else:
+            query = dict(
+                start_time=start_time.strftime("%Y-%m-%d %H:%M:%S"),
+                end_time=end_time.strftime("%Y-%m-%d %H:%M:%S"),
+                page_no=page_no,
+                page_size=page_size,
+            )
+        query.update(**kwargs)
+        data = dict(list(filter(lambda x: x[1] is not None, query.items())))
+        return self._post("/openapi2/suites_query.php", data=data)
 
 

@@ -253,6 +253,15 @@ class OpenapiTestCase(unittest.TestCase):
         self.assertIn('goods_list', keys)
         self.assertIn('total_count', keys)
 
+    def test_goods_suites_query(self):
+        end_time = datetime.datetime.now()
+        start_time = end_time - datetime.timedelta(days=29)
+        data = self.openapi.goods.suites_query(start_time=start_time,
+                                               end_time=end_time,
+                                               suite_no='SUOXIE0001502')
+        self.assertEqual(data['code'], self.openapi.CODE.SUCCESS, data)
+        self.assertIn('suites', data)
+
     def test_trade_push(self):
         """测试推送原始订单"""
         trade_list = [{
