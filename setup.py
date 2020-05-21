@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import sys
 from os.path import dirname, abspath, join
 
-from pip._internal.req import parse_requirements
 from setuptools import setup, find_packages
 
 LIB_DIR = dirname(abspath(__file__))
@@ -17,14 +15,22 @@ def long_description():
     return readme + '\n\n' + history
 
 
-requirements = [str(ir.req)
-                for ir in
-                parse_requirements(join(LIB_DIR, 'requirements', 'base.txt'),
-                                   session='hack')]
+requirements = ['certifi==2018.4.16',
+                'chardet==3.0.4',
+                'idna==2.6',
+                'requests==2.18.4',
+                'urllib3==1.22']
 
-test_requirements = [str(ir.req)
-                     for ir in parse_requirements(
-        join(LIB_DIR, 'requirements', 'test.txt'), session='hack')]
+test_requirements = ['appnope==0.1.0', 'atomicwrites==1.1.5', 'attrs==18.1.0',
+                     'backports.shutil-get-terminal-size==1.0.0', 'bumpversion==0.5.3',
+                     'cov-core==1.15.0', 'coverage==4.5.1', 'decorator==4.3.0', 'enum34==1.1.6',
+                     'funcsigs==1.0.2', 'ipython-genutils==0.2.0', 'ipython==5.7.0', 'lxml==4.2.1',
+                     'more-itertools==4.2.0', 'namedlist==1.7', 'nose-allure-plugin==1.0.5',
+                     'nose-cov==1.6', 'nose==1.3.7', 'pathlib2==2.3.2', 'pexpect==4.5.0',
+                     'pickleshare==0.7.4', 'pluggy==0.6.0', 'prompt-toolkit==1.0.15',
+                     'ptyprocess==0.5.2', 'py==1.5.3', 'pygments==2.2.0',
+                     'pytest-allure-adaptor==1.7.10', 'pytest==3.6.0', 'scandir==1.7',
+                     'simplegeneric==0.8.1', 'six==1.11.0', 'traitlets==4.3.2', 'wcwidth==0.1.7']
 
 import wangdiantong as wdt
 
