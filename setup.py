@@ -11,9 +11,9 @@ def long_description():
     with open(join(LIB_DIR, 'README.md')) as readme_file:
         readme = readme_file.read()
 
-    with open(join(LIB_DIR, 'HISTORY.md')) as history_file:
-        history = history_file.read()
-    return readme + '\n\n' + history
+    # with open(join(LIB_DIR, 'HISTORY.md')) as history_file:
+    #     history = history_file.read()
+    # return readme + '\n\n' + history
 
 
 requirements = ['certifi', 'chardet', 'idna', 'requests', 'urllib3']
@@ -42,6 +42,7 @@ setup(
     keywords='wangdiantong',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
