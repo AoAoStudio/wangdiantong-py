@@ -1,0 +1,6 @@
+-i http://mirrors.aliyun.com/pypi/simple/
+certifi
+chardet
+idna
+requests
+urllib3
